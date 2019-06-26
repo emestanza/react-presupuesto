@@ -1,51 +1,42 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import Error from "./Error";
-import shortid from 'shortid';
+import shortid from "shortid";
 
 function Formulario(props) {
-
     const { guardarGasto, guardarCrearGasto } = props;
 
     // state
-    const [ nombreGasto, guardarNombreGasto ] = useState('');
-    const [ cantidadGasto, guardarCantidadGasto] = useState(0);
-    const [ error, guardarError ] = useState(false);
+    const [nombreGasto, guardarNombreGasto] = useState("");
+    const [cantidadGasto, guardarCantidadGasto] = useState(0);
+    const [error, guardarError] = useState(false);
 
-   
-
-    const agregarGasto =(e) =>{
-        
+    const agregarGasto = e => {
         e.preventDefault();
 
-         // validar
-         if(cantidadGasto < 1 || isNaN( cantidadGasto ) || nombreGasto === '' ) {
+        // validar
+        if (cantidadGasto < 1 || isNaN(cantidadGasto) || nombreGasto === "") {
             guardarError(true);
             return;
         }
 
         // construir objeto de gasto
         const gasto = {
-            nombreGasto, 
-            cantidadGasto, 
+            nombreGasto,
+            cantidadGasto,
             id: shortid.generate()
-        }
+        };
 
-         // pasar el gasto al componente principal
-         guardarGasto(gasto);
-         guardarCrearGasto(true);
- 
+        // pasar el gasto al componente principal
+        guardarGasto(gasto);
+        guardarCrearGasto(true);
 
         guardarError(false);
-        guardarNombreGasto('');
-        guardarCantidadGasto('');
-
-    }
-
-
+        guardarNombreGasto("");
+        guardarCantidadGasto("");
+    };
 
     return (
-        <form  onSubmit={agregarGasto}>
-
+        <form onSubmit={agregarGasto}>
             {error ? <Error mensaje="Ambos campos son obligatorios" /> : null}
 
             <h2>Agrega tus Gastos Aquí</h2>
@@ -66,7 +57,11 @@ function Formulario(props) {
                     type="number"
                     className="u-full-width"
                     placeholder="Ej. 300"
-                    onChange={e => isNaN(e.target.value)?0:guardarCantidadGasto(parseInt( e.target.value, 10))}
+                    onChange={e =>
+                        isNaN(e.target.value)
+                            ? 0
+                            : guardarCantidadGasto(parseInt(e.target.value, 10))
+                    }
                     value={cantidadGasto}
                 />
             </div>

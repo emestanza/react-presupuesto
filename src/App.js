@@ -5,31 +5,33 @@ import Listado from "./components/Listado";
 import ControlPresupuesto from "./components/ControlPresupuesto";
 
 function App() {
-    //const [cantidadPresupuesto, guardarPresupuesto] = useState(0);
-    
-    const [ presupuesto, guardarPresupuesto] = useState(0);
-    const [ restante, guardarRestante ] = useState(0);
 
+    //states para <Pregunta>
+    const [presupuesto, guardarPresupuesto] = useState(0);
     const [preguntaPresupuesto, guardarPreguntaPresupuesto] = useState(true);
-
+    const [restante, guardarRestante] = useState(0);
+    
+    //states para formulario principal -> <Formulario>
     const [gasto, guardarGasto] = useState({});
+    const [crearGasto, guardarCrearGasto] = useState(false);
+
+    //state para <Listado>
     const [gastos, guardarGastos] = useState([]);
-    const [ crearGasto, guardarCrearGasto ] = useState(false);
-
+    
     useEffect(() => {
-        if(crearGasto) {
-          const listadoGastos = [...gastos, gasto];
-          guardarGastos(listadoGastos);
 
-        // restar el presupuesto
-         const presupuestoRestante = restante - gasto.cantidadGasto;
-         guardarRestante(presupuestoRestante);
- 
+        if (crearGasto) {
+            const listadoGastos = [...gastos, gasto];
+            guardarGastos(listadoGastos);
 
-        // Una vez que se agrega, lo ponemos como false
-        guardarCrearGasto(false);
-      }
-    },  [crearGasto, gastos, gasto, restante]);
+            // restar el presupuesto
+            const presupuestoRestante = restante - gasto.cantidadGasto;
+            guardarRestante(presupuestoRestante);
+
+            // Una vez que se agrega, lo ponemos como false
+            guardarCrearGasto(false);
+        }
+    }, [crearGasto, gastos, gasto, restante]);
 
     return (
         <div className="App container">
@@ -41,23 +43,23 @@ function App() {
                     <Pregunta
                         guardarPresupuesto={guardarPresupuesto}
                         guardarPreguntaPresupuesto={guardarPreguntaPresupuesto}
-                        guardarRestante ={guardarRestante}
+                        guardarRestante={guardarRestante}
                     />
                 ) : (
                     <div className="row">
                         <div className="one-half column">
-                            <Formulario 
-                              guardarGasto={guardarGasto}
-                              guardarCrearGasto={guardarCrearGasto} />
+                            <Formulario
+                                guardarGasto={guardarGasto}
+                                guardarCrearGasto={guardarCrearGasto}
+                            />
                         </div>
                         <div className="one-half column">
                             <Listado gastos={gastos} />
 
                             <ControlPresupuesto
-                                  presupuesto={presupuesto}
-                                  restante={restante}
-                              />
-
+                                presupuesto={presupuesto}
+                                restante={restante}
+                            />
                         </div>
                     </div>
                 )}

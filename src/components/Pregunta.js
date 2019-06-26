@@ -6,6 +6,7 @@ function Pregunta(props) {
     const [cantidad, guardarCantidad] = useState(0);
     const [error, guardarError] = useState(false);
 
+    //lo que proviene de los props
     const { guardarPresupuesto, guardarPreguntaPresupuesto, guardarRestante } = props;
 
     //submit
